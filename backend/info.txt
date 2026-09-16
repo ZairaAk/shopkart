@@ -1,0 +1,19 @@
+Model — defines the shape of data in MongoDB.
+Controller — the actual logic for each request (what happens when someone hits an endpoint).
+Route — just maps a URL + HTTP method to a controller function. No logic here.
+Middleware — code that runs between the request coming in and the controller running (e.g., checking if a user is authenticated).
+
+
+express — the web server framework; handles routing and middleware.
+mongoose — an ODM (Object Data Modeling) library that lets you define schemas for MongoDB and query it with JS objects instead of raw driver calls.
+bcrypt — one-way hashing for passwords (never store plain text passwords).
+jsonwebtoken — creates/verifies JWTs, the tokens that prove "this request came from a logged-in user."
+cookie-parser — lets Express read cookies sent by the browser (req.cookies).
+dotenv — loads secrets (DB URL, JWT secret) from a .env file instead of hardcoding them.
+nodemon (dev only) — auto-restarts the server on file changes.
+
+
+
+
+
+//see generatetoken 
