@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import customerRouter from "./routes/customer.routes.js";
+import productRouter from "./routes/product.routes.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(express.json());       // parses incoming JSON request bodies into req.body
 app.use(cookieParser());       // parses cookies into req.cookies
 app.use("/customers", customerRouter);
+app.use("/products", productRouter);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))

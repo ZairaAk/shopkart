@@ -10,6 +10,10 @@ export const registerCustomer= async (req,res)=>{
             return res.status(400).json({ message: 'All fileds Required' })
         }
 
+        if (!/^[0-9]{10}$/.test(phone)) {
+            return res.status(400).json({ message: 'Phone number must be exactly 10 digits' });
+        }
+
         if (password.length < 6) {
             return res.status(400).json({ message: 'Password should be greater than 6 characters' })
         }

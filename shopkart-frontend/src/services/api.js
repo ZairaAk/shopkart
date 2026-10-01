@@ -41,4 +41,27 @@ export const logoutCustomer = async () => {
   }
 };
 
+const productApi = axios.create({
+  baseURL: "http://localhost:3000",
+  withCredentials: true,
+});
+
+export const getAllProducts = async (params) => {
+  try {
+    const response = await productApi.get("/products", { params });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getProductById = async (id) => {
+  try {
+    const response = await productApi.get(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export default api;
