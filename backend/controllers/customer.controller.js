@@ -62,12 +62,14 @@ export const loginCustomer = async (req, res) => {
     const customer = await Customer.findOne({ email });
 
     if (!customer) {
+      console.log("No customer found for email:", email);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, customer.password);
 
     if (!isMatch) {
+      console.log("Password mismatch for:", email);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 

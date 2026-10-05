@@ -19,6 +19,12 @@ const customerSchema = new mongoose.Schema({
     required: true,
     match: [/^[0-9]{10}$/, "Phone number must be exactly 10 digits"],
   },
+  wishlist: [
+  {
+    type: mongoose.Schema.Types.ObjectId, //gives id of type obejctid (24 hex char string)
+    ref: "product",
+  }
+],
 }, { timestamps: true });
 
 const Customer = mongoose.model("customer", customerSchema);

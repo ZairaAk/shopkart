@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import customerRouter from "./routes/customer.routes.js";
 import productRouter from "./routes/product.routes.js";
+import wishlistRouter from "./routes/wishlist.routes.js";
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.use(express.json());       // parses incoming JSON request bodies into req.b
 app.use(cookieParser());       // parses cookies into req.cookies
 app.use("/customers", customerRouter);
 app.use("/products", productRouter);
+app.use("/wishlist", wishlistRouter);
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))

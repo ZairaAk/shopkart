@@ -65,3 +65,30 @@ export const getProductById = async (id) => {
 };
 
 export default api;
+
+export const addToWishlist = async (productId) => {
+  try {
+    const response = await productApi.post(`/wishlist/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const removeFromWishlist = async (productId) => {
+  try {
+    const response = await productApi.delete(`/wishlist/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getWishlist = async () => {
+  try {
+    const response = await productApi.get("/wishlist");
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

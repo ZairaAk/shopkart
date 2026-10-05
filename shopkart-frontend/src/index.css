@@ -217,3 +217,19 @@ body {
 .product-details-info {
   flex: 1;
 }
+
+.empty-wishlist {
+  text-align: center;
+  margin-top: 60px;
+  color: var(--text-light);
+}
+
+.empty-wishlist button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+}
