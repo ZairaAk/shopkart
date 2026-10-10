@@ -1,3 +1,4 @@
+import Cart from "./pages/Cart";
 import { Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -15,6 +16,7 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/cart" element={<Cart />} />
     </Routes>
   );
 }

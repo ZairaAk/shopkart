@@ -24,6 +24,20 @@ const customerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, //gives id of type obejctid (24 hex char string)
     ref: "product",
   }
+  ],
+  cart: [
+  {
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "product",
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+      min: 1,
+    },
+  }
 ],
 }, { timestamps: true });
 

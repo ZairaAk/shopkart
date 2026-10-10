@@ -9,6 +9,7 @@ import cors from 'cors';
 import customerRouter from "./routes/customer.routes.js";
 import productRouter from "./routes/product.routes.js";
 import wishlistRouter from "./routes/wishlist.routes.js";
+import cartRouter from "./routes/cart.routes.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());       // parses cookies into req.cookies
 app.use("/customers", customerRouter);
 app.use("/products", productRouter);
 app.use("/wishlist", wishlistRouter);
+app.use("/cart", cartRouter);
 
 
 mongoose.connect(process.env.MONGO_URI)

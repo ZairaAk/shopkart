@@ -92,3 +92,39 @@ export const getWishlist = async () => {
     throw error.response.data;
   }
 };
+
+export const addToCart = async (productId) => {
+  try {
+    const response = await productApi.post(`/cart/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getCart = async () => {
+  try {
+    const response = await productApi.get("/cart");
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const updateCartQuantity = async (productId, quantity) => {
+  try {
+    const response = await productApi.patch(`/cart/${productId}`, { quantity });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const removeFromCart = async (productId) => {
+  try {
+    const response = await productApi.delete(`/cart/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

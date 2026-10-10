@@ -14,6 +14,7 @@ function Navbar() {
       <Link to="/home">ShopKart</Link>
       <Link to="/products">Products</Link>
       <Link to="/wishlist">Wishlist</Link>
+      <Link to="/cart">Cart</Link>
       <button onClick={handleLogout}>Logout</button>
     </nav>
   );

@@ -4,11 +4,13 @@ import generateToken from "../utils/generateToken.js";
 
 export const registerCustomer= async (req,res)=>{
     try{
-        
+
         const {fullName,email,password,phone} =req.body;
         if (!fullName || !phone|| !email || !password) {
             return res.status(400).json({ message: 'All fileds Required' })
         }
+
+        const normalizedEmail = email.toLowerCase().trim();
 
         if (!/^[0-9]{10}$/.test(phone)) {
             return res.status(400).json({ message: 'Phone number must be exactly 10 digits' });
@@ -17,8 +19,8 @@ export const registerCustomer= async (req,res)=>{
         if (password.length < 6) {
             return res.status(400).json({ message: 'Password should be greater than 6 characters' })
         }
-      
-        const emailExists = await Customer.findOne({ email }) //is it User bcz we named it
+
+        const emailExists = await Customer.findOne({ email: normalizedEmail }) //is it User bcz we named it
 
         if (emailExists) {
             return res.status(409).json({ message: 'User Already Exists' })
@@ -29,7 +31,7 @@ export const registerCustomer= async (req,res)=>{
 
         const newCustomer = await Customer.create({
             fullName,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
             phone,
         });
@@ -45,13 +47,13 @@ export const registerCustomer= async (req,res)=>{
             },
         });
 
-    
+
     }catch(error){
         res.status(500).json({ message: 'Server crashed', error: error.message })
 
     }
 
-    
+
 }
 
 
@@ -59,17 +61,19 @@ export const loginCustomer = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const customer = await Customer.findOne({ email });
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const customer = await Customer.findOne({ email: normalizedEmail });
 
     if (!customer) {
-      console.log("No customer found for email:", email);
+      console.log("No customer found for email:", normalizedEmail);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, customer.password);
 
     if (!isMatch) {
-      console.log("Password mismatch for:", email);
+      console.log("Password mismatch for:", normalizedEmail);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
