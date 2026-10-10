@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addToWishlist } from "../services/api";
+import { useCart } from "../context/CartContext";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { items, addItem } = useCart();
   const [wishlistState, setWishlistState] = useState("default");
+  const [cartState, setCartState] = useState("default");
+  const [cartError, setCartError] = useState("");
+
+  // true if this product already has a row in the shared cart
+  const inCart = items.some((item) => item.product?._id === product._id);
 
   const handleAddToWishlist = async () => {
 
@@ -20,12 +27,29 @@ function ProductCard({ product }) {
     }
   };
 
+  const handleAddToCart = async () => {
+    if (cartState === "adding") return;
+
+    setCartState("adding");
+    setCartError("");
+    try {
+      await addItem(product._id);
+    } catch (err) {
+      setCartError(err.message || "Could not add to cart.");
+    } finally {
+      setCartState("default");
+    }
+  };
+
   const wishlistLabel = {
     default: "♡ Add to Wishlist",
     saving: "⏳ Saving...",
     success: "♥ Added to Wishlist",
     error: "Unable to save. Try again.",
   }[wishlistState];
+
+  const cartLabel =
+    cartState === "adding" ? "Adding..." : inCart ? "Add Another" : "Add to Cart";
 
   return (
     <div className="product-card">
@@ -42,6 +66,13 @@ function ProductCard({ product }) {
       <button onClick={handleAddToWishlist} disabled={wishlistState === "saving"}>
         {wishlistLabel}
       </button>
+      <button
+        onClick={handleAddToCart}
+        disabled={cartState === "adding" || product.stock < 1}
+      >
+        {cartLabel}
+      </button>
+      {cartError && <p className="cart-error">{cartError}</p>}
     </div>
   );
 }

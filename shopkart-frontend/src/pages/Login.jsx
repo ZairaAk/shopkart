@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginCustomer } from "../services/api";
+import { useCart } from "../context/CartContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { fetchCart } = useCart();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -14,9 +16,10 @@ function Login() {
 
     try {
       await loginCustomer({ email, password });
+      await fetchCart();
       navigate("/home");
     } catch (err) {
-      setError("Invalid Credentials");
+      setError(err.message || "Invalid Credentials");
     }
   };
 
