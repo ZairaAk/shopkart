@@ -128,3 +128,42 @@ export const removeFromCart = async (productId) => {
     throw error.response.data;
   }
 };
+export const createPaymentOrder = async (shippingAddress) => {
+  try {
+    const response = await productApi.post("/orders/create-payment-order", {
+      shippingAddress,
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const verifyPayment = async (paymentData) => {
+  try {
+    const response = await productApi.post("/orders/verify-payment", paymentData);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+
+
+export const getMyOrders = async () => {
+  try {
+    const response = await productApi.get("/orders");
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getOrderById = async (id) => {
+  try {
+    const response = await productApi.get(`/orders/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

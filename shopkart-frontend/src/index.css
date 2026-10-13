@@ -317,3 +317,27 @@ body {
   color: var(--error);
   font-size: 13px;
 }
+
+.checkout-page { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 24px; }
+.checkout-form, .order-summary { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.checkout-field { display: flex; flex-direction: column; margin-bottom: 12px; }
+.checkout-field input { padding: 10px; border: 1px solid var(--border); border-radius: 8px; }
+.checkout-error { color: var(--error); font-size: 13px; margin-top: 4px; }
+.checkout-line { display: flex; justify-content: space-between; margin: 6px 0; }
+@media (max-width: 700px) { .checkout-page { grid-template-columns: 1fr; } }
+
+.success-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 640px; margin: 0 auto; }
+.success-sub { color: var(--text-light); margin-bottom: 16px; }
+.success-meta p { margin: 4px 0; word-break: break-all; }
+.success-actions { display: flex; gap: 12px; margin-top: 20px; }
+
+.orders-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
+.order-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.order-card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.order-id { font-weight: 600; margin: 0; }
+.order-date { color: var(--text-light); font-size: 14px; margin: 2px 0 0; }
+.order-badge { background: var(--primary); color: var(--text); padding: 4px 10px; border-radius: 999px; font-size: 12px; }
+.order-card-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.order-card-item { display: flex; align-items: center; gap: 10px; }
+.order-card-item img { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; }
+.order-card-foot { display: flex; justify-content: space-between; align-items: center; }

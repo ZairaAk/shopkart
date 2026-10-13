@@ -111,7 +111,9 @@ function Cart() {
               <h3>Order Summary</h3>
               <p>Items: {cartCount}</p>
               <p>Subtotal: ₹{subtotal.toLocaleString("en-IN")}</p>
-              <button>Proceed to Checkout</button>
+              <button onClick={() => navigate("/checkout")}>
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         )}
