@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import mongoose from "mongoose";
-import Product from "../models/product.model.js";
 import Razorpay from "razorpay";
+import Product from "../models/product.model.js";
 import Customer from "../models/customer.model.js";
 import Order from "../models/order.model.js";
 
@@ -71,6 +71,9 @@ export const createPaymentOrder = async (req, res) => {
       totalAmount += product.price * row.quantity;
     }
 
+    // Remove floating point noise (e.g. 6244.000000001)
+    totalAmount = Math.round(totalAmount * 100) / 100;
+
     // Trim the address values before saving
     const cleanAddress = {};
     for (const key of Object.keys(shippingAddress)) {
@@ -116,7 +119,6 @@ export const createPaymentOrder = async (req, res) => {
     res.status(500).json({ message: "Could not create payment order", error: error.message });
   }
 };
-
 
 export const verifyPayment = async (req, res) => {
   try {
@@ -182,7 +184,6 @@ export const verifyPayment = async (req, res) => {
     res.status(500).json({ message: "Could not verify payment", error: error.message });
   }
 };
-
 
 export const getMyOrders = async (req, res) => {
   try {

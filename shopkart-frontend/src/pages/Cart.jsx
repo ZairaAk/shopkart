@@ -16,6 +16,7 @@ function Cart() {
     removeItem,
   } = useCart();
   const [actionError, setActionError] = useState("");
+  const [busyId, setBusyId] = useState(null); // id of the item currently being changed
 
   // Always fetch fresh on page open, so latest price and stock show up
   useEffect(() => {
@@ -24,19 +25,25 @@ function Cart() {
 
   const handleUpdate = async (productId, quantity) => {
     setActionError("");
+    setBusyId(productId);
     try {
       await updateQuantity(productId, quantity);
     } catch (err) {
       setActionError(err.message || "Could not update quantity.");
+    } finally {
+      setBusyId(null);
     }
   };
 
   const handleRemove = async (productId) => {
     setActionError("");
+    setBusyId(productId);
     try {
       await removeItem(productId);
     } catch (err) {
       setActionError(err.message || "Could not remove item.");
+    } finally {
+      setBusyId(null);
     }
   };
 
@@ -70,41 +77,46 @@ function Cart() {
           <div className="cart-layout">
             <div className="cart-items">
               {actionError && <p className="cart-error">{actionError}</p>}
-              {validItems.map((item) => (
-                <div className="cart-item" key={item.product._id}>
-                  <img src={item.product.image} alt={item.product.name} />
-                  <div className="cart-item-info">
-                    <h3>{item.product.name}</h3>
-                    <p className="product-price">
-                      ₹{item.product.price.toLocaleString("en-IN")}
-                    </p>
-                    <div className="quantity-controls">
+              {validItems.map((item) => {
+                const isBusy = busyId === item.product._id;
+
+                return (
+                  <div className="cart-item" key={item.product._id}>
+                    <img src={item.product.image} alt={item.product.name} />
+                    <div className="cart-item-info">
+                      <h3>{item.product.name}</h3>
+                      <p className="product-price">
+                        ₹{item.product.price.toLocaleString("en-IN")}
+                      </p>
+                      <div className="quantity-controls">
+                        <button
+                          onClick={() => handleUpdate(item.product._id, item.quantity - 1)}
+                          disabled={item.quantity <= 1 || isBusy}
+                        >
+                          -
+                        </button>
+                        <span>{isBusy ? "..." : item.quantity}</span>
+                        <button
+                          onClick={() => handleUpdate(item.product._id, item.quantity + 1)}
+                          disabled={item.quantity >= item.product.stock || isBusy}
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
-                        onClick={() => handleUpdate(item.product._id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
+                        className="remove-btn"
+                        onClick={() => handleRemove(item.product._id)}
+                        disabled={isBusy}
                       >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        onClick={() => handleUpdate(item.product._id, item.quantity + 1)}
-                        disabled={item.quantity >= item.product.stock}
-                      >
-                        +
+                        Remove
                       </button>
                     </div>
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemove(item.product._id)}
-                    >
-                      Remove
-                    </button>
+                    <p className="cart-line-total">
+                      ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
+                    </p>
                   </div>
-                  <p className="cart-line-total">
-                    ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="order-summary">
